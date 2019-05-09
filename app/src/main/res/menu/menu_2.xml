@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/actionTabs"
+          android:title="@string/tabs"
+          android:icon="@drawable/ic_filter_1_black_24dp"
+          app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/actionShare"
+          android:title="@string/actionShare"
+          android:icon="@drawable/ic_share_24dp"
+          app:showAsAction="collapseActionView"/>
+
+    <item android:id="@+id/actionClearPrivateData"
+          android:title="@string/actionClearPrivateData"
+          android:icon="@drawable/ic_clear_private_data_24dp"
+          app:showAsAction="collapseActionView"/>
+
+    <item android:id="@+id/actionRequestDesktopSite"
+          android:title="@string/actionRequestDesktopSite"
+          android:checkable="true"/>
+
+</menu>
