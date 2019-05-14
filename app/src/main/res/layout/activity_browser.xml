@@ -8,9 +8,12 @@
         android:fitsSystemWindows="true"
         tools:context=".BrowserActivity">
 
+    <!-- App Bar -->
     <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+        <!-- Toolbar-->
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -36,7 +39,7 @@
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
         <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
