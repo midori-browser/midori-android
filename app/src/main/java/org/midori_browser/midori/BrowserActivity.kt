@@ -1,33 +1,42 @@
 package org.midori_browser.midori
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.webkit.CookieManager
-import android.webkit.WebSettings
-import android.webkit.WebStorage
+import android.webkit.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_browser.*
 import java.util.ResourceBundle.clearCache
 
 class BrowserActivity : AppCompatActivity() {
 
+    lateinit var downloadListener: DownloadListener
+    lateinit var webViews: WebView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_browser)
         setSupportActionBar(findViewById(R.id.toolbar))
+
 
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
@@ -74,6 +83,52 @@ class BrowserActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
+
+        onDownloadComplete()
+        createDownloaderListener()
+
+    }
+
+    override fun onResume() {
+        webViews = findViewById(R.id.webView)
+        webViews.setDownloadListener(downloadListener)
+        super.onResume()
+    }
+
+    private fun onDownloadComplete(){
+        val onComplete = object: BroadcastReceiver(){
+            override fun onReceive(context: Context?, intent: Intent?) {
+                Toast.makeText(context, "File Downloaded", Toast.LENGTH_SHORT).show()
+            }
+        }
+        registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+    }
+
+    private fun createDownloaderListener(){
+
+        val permissionCheck = PermissionCheck()
+
+        if (permissionCheck.readAndWriteExternalStorage(this)) {
+            downloadListener = DownloadListener { url,
+                                                  userAgent,
+                                                  contentDescription,
+                                                  mimetype,
+                                                  contentLength ->
+                val request = DownloadManager.Request(Uri.parse(url))
+                request.allowScanningByMediaScanner()
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                val fileName = URLUtil.guessFileName(url, contentDescription, mimetype)
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+                request.setVisibleInDownloadsUi(true)
+                val dManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                dManager.enqueue(request)
+                Toast.makeText(this, "Downloading File " , Toast.LENGTH_SHORT).show()
+
+
+            }
+        }else{
+            Log.e("Error de Descarga", "Error al descargar")
+        }
     }
 
     private fun loadUrlOrSearch(text: String) {
@@ -149,8 +204,16 @@ class BrowserActivity : AppCompatActivity() {
             webView.reload()
             true
         }
+        R.id.actionTabs -> {
+            val intent = Intent(this, ActivityTabs::class.java)
+            startActivity(intent)
+            true
+        }
         else -> {
             super.onOptionsItemSelected(item)
         }
     }
 }
+
+
+
