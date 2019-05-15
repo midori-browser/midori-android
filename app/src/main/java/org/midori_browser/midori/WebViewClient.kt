@@ -14,7 +14,6 @@ class WebViewClient(val activity: BrowserActivity) : WebViewClient() {
             activity.urlBar.setText(url)
             return false
         }
-
         activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         return true
     }
