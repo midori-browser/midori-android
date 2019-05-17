@@ -1,10 +1,9 @@
 package org.midori_browser.midori
 
 import android.app.DownloadManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
+import android.content.res.Resources
+import android.media.browse.MediaBrowser
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +16,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.webkit.*
@@ -24,13 +24,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_browser.*
+
 import java.util.ResourceBundle.clearCache
 
 class BrowserActivity : AppCompatActivity() {
 
     lateinit var downloadListener: DownloadListener
     lateinit var webViews: WebView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,8 +123,6 @@ class BrowserActivity : AppCompatActivity() {
                 val dManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                 dManager.enqueue(request)
                 Toast.makeText(this, "Downloading File " , Toast.LENGTH_SHORT).show()
-
-
             }
         }else{
             Log.e("Error de Descarga", "Error al descargar")
@@ -175,6 +173,11 @@ class BrowserActivity : AppCompatActivity() {
         }
     }
 
+    fun showDownload(){
+        val intent = Intent()
+        intent.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS)
+        startActivity(intent)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_menu, menu)
@@ -207,6 +210,10 @@ class BrowserActivity : AppCompatActivity() {
         R.id.actionTabs -> {
             val intent = Intent(this, ActivityTabs::class.java)
             startActivity(intent)
+            true
+        }
+        R.id.download -> {
+            showDownload()
             true
         }
         else -> {
