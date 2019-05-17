@@ -18,5 +18,4 @@ class PermissionCheck{
             return true
         }
     }
-
 }
