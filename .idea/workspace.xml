@@ -87,7 +87,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -103,7 +103,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/midori_browser/midori/ActivityTabs.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/midori_browser/midori/WebChromeClient.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/midori_browser/midori/BrowserActivity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/app_menu.xml" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
