@@ -2,8 +2,6 @@ package org.midori_browser.midori
 
 import android.app.DownloadManager
 import android.content.*
-import android.content.res.Resources
-import android.media.browse.MediaBrowser
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,7 +14,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.webkit.*
@@ -24,7 +21,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_browser.*
-
 import java.util.ResourceBundle.clearCache
 
 class BrowserActivity : AppCompatActivity() {
@@ -36,7 +32,6 @@ class BrowserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_browser)
         setSupportActionBar(findViewById(R.id.toolbar))
-
 
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
@@ -86,13 +81,12 @@ class BrowserActivity : AppCompatActivity() {
 
         onDownloadComplete()
         createDownloaderListener()
-
     }
 
     override fun onResume() {
+        super.onResume()
         webViews = findViewById(R.id.webView)
         webViews.setDownloadListener(downloadListener)
-        super.onResume()
     }
 
     private fun onDownloadComplete(){
@@ -155,7 +149,6 @@ class BrowserActivity : AppCompatActivity() {
             return uri.format(escaped)
         }
         return uri + escaped
-
     }
 
     val completion = listOf("www.midori-browser.org", "example.com", "duckduckgo.com")
@@ -182,6 +175,13 @@ class BrowserActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.app_menu, menu)
         return true
+    }
+
+    override fun onBackPressed() {
+        if (webView.canGoBack()){
+            webView.goBack()
+        }else{
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -214,6 +214,10 @@ class BrowserActivity : AppCompatActivity() {
         }
         R.id.download -> {
             showDownload()
+            true
+        }
+        R.id.goBack -> {
+            onBackPressed()
             true
         }
         else -> {

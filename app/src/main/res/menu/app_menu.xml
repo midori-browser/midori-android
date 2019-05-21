@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/goBack"
+          android:title="@string/go_back"
+          app:showAsAction="always"
+          android:icon="@drawable/ic_keyboard_backspace_black_24dp"/>
+
+    <item android:id="@+id/actionTabs"
+          android:title="@string/tabs"
+          android:icon="@drawable/ic_add_to_photos_black_24dp"
+          app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/actionShare"
+          android:title="@string/actionShare"
+          android:icon="@drawable/ic_share_24dp"
+          app:showAsAction="collapseActionView"/>
+
+    <item android:id="@+id/download"
+          android:title="@string/download"
+          android:visible="true"
+          app:showAsAction="collapseActionView"
+          />
+
+    <item android:id="@+id/actionClearPrivateData"
+          android:title="@string/actionClearPrivateData"
+          android:icon="@drawable/ic_clear_private_data_24dp"
+          app:showAsAction="collapseActionView"/>
+
+    <item android:id="@+id/actionRequestDesktopSite"
+          android:title="@string/actionRequestDesktopSite"
+          android:checkable="true"/>
+</menu>
