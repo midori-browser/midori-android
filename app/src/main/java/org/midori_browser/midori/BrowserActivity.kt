@@ -81,8 +81,8 @@ class BrowserActivity : AppCompatActivity() {
             }
         })
 
-        onDownloadComplete()
         createDownloaderListener()
+        onDownloadComplete()
     }
 
     override fun onResume() {
@@ -92,6 +92,7 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     private fun onDownloadComplete(){
+
         val onComplete = object: BroadcastReceiver(){
             override fun onReceive(context: Context?, intent: Intent?) {
                 Toast.makeText(context, "File Downloaded", Toast.LENGTH_SHORT).show()
@@ -111,17 +112,19 @@ class BrowserActivity : AppCompatActivity() {
                                                   mimetype,
                                                   contentLength ->
                 val request = DownloadManager.Request(Uri.parse(url))
+                val fileName = URLUtil.guessFileName(url, contentDescription, mimetype)
                 request.allowScanningByMediaScanner()
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 val fileName = URLUtil.guessFileName(url, contentDescription, mimetype)
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
                 request.setVisibleInDownloadsUi(true)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
                 val dManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                 dManager.enqueue(request)
                 Toast.makeText(this, "Downloading File " , Toast.LENGTH_SHORT).show()
             }
         }else{
-            Log.e("Error de Descarga", "Error al descargar")
+            Log.e("Error: ", "Error Downloading")
         }
     }
 
