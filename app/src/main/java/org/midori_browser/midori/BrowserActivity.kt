@@ -33,11 +33,13 @@ class BrowserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_browser)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
         requestDesktopSite(false)
         webSettings.databaseEnabled = true
         webSettings.setAppCacheEnabled(true)
+        webView.setPadding(0,0,0,0)
         webSettings.domStorageEnabled = true
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
