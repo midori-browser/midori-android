@@ -17,9 +17,7 @@ import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.webkit.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import kotlinx.android.synthetic.main.activity_browser.*
 import java.util.ResourceBundle.clearCache
 
@@ -32,7 +30,6 @@ class BrowserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_browser)
         setSupportActionBar(findViewById(R.id.toolbar))
-
 
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
@@ -115,8 +112,6 @@ class BrowserActivity : AppCompatActivity() {
                 val fileName = URLUtil.guessFileName(url, contentDescription, mimetype)
                 request.allowScanningByMediaScanner()
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                val fileName = URLUtil.guessFileName(url, contentDescription, mimetype)
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
                 request.setVisibleInDownloadsUi(true)
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
                 val dManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -185,7 +180,11 @@ class BrowserActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (webView.canGoBack()){
             webView.goBack()
-        }else{
+            webView.copyBackForwardList()
+            Toast.makeText(this, webView.url, Toast.LENGTH_SHORT).show()
+        }else {
+            webView.goForward()
+            Toast.makeText(this, webView.url, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -223,6 +222,18 @@ class BrowserActivity : AppCompatActivity() {
         }
         R.id.goBack -> {
             onBackPressed()
+            true
+        }
+        R.id.goForward ->{
+            onBackPressed()
+            true
+        }
+        R.id.history -> {
+            /**
+             *
+             * Code here
+             *
+             * */
             true
         }
         else -> {
